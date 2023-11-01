@@ -1,0 +1,42 @@
+<div class="paging-container">
+    <table style="background-color: #ebf0f6;" width='100%'>
+        <tr>
+            <td>
+                {{'total_number_of_pages'| translate}}: {{pager.pageCount}}
+            </td>
+            <td>
+                <span>{{'rows_per_page'| translate}}:</span> <input type="text" min="1" style="width:50px;" ng-model="pager.pageSize" d2-enter="resetPageSize()" ng-blur="resetPageSize()"> 
+            </td>
+            <td>
+                <span>{{'jump_to_page'| translate}}:</span> <input type="text" min="1" style="width:50px;" ng-model="pager.page" d2-enter="jumpToPage()" ng-blur="jumpToPage()"> 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="paging">
+                    <span ng-if="pager.page > 1">
+                        <a href ng-click="getPage(1)" title="{{'first'| translate}}"> 
+                            &laquo;&laquo;
+                        </a>
+                        <a href ng-click="getPage(pager.page - 1)" title="{{'previous'| translate}}"> 
+                            &laquo;
+                        </a>                    
+                    </span>
+                    <span ng-if="pager.page === 1">
+                        <span title="{{'first'| translate}}">&laquo;&laquo;</span>
+                        <span title="{{'previous'| translate}}">&laquo;</span>
+                    </span>
+                    <a href class="active" ng-click="getPage(pager.page)" title="{{'page'| translate}} {{i + 1}}">
+                        {{pager.page}}
+                    </a>
+
+                    <span ng-if="model.projects.length === pager.pageSize">
+                        <a href ng-click="getPage(pager.page + 1)" title="{{'next'| translate}}" > 
+                            &raquo;
+                        </a>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>   
+</div>

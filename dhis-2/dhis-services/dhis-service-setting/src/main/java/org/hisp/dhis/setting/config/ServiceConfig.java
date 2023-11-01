@@ -331,6 +331,7 @@ public class ServiceConfig {
     flags.add("turks_and_caicos_islands");
     flags.add("tuvalu");
     flags.add("uganda");
+    flags.add( "uganda_ndp" );
     flags.add("ukraine");
     flags.add("united_arab_emirates");
     flags.add("united_kingdom");

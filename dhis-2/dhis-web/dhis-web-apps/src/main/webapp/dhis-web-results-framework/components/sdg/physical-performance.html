@@ -1,0 +1,113 @@
+<div class="small-vertical-spacing hideInPrint">
+    <div class="selection-group">
+        <div class="col-sm-7 green-info-area">
+            <!--<div class="row small-vertical-spacing">
+                <div class="col-sm-2">
+                    {{'ndp'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedNDP"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.ndp && model.ndp.options && model.ndp.options.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="option in model.ndp.options | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                            <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>-->
+            <div class="row small-vertical-spacing">
+                <div class="col-sm-2">
+                    {{'goal'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedSdgGoal"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.sdgGoals && model.sdgGoals.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="goal in model.sdgGoals | filter: $select.search | limitTo:maxOptionSize">
+                            <span ng-bind-html="goal.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row small-vertical-spacing" ng-if="model.selectedSdgGoal">
+                <div class="col-sm-2">
+                    {{'target'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedTarget"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.targets && model.targets.length > 0 ? 'all' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="target in model.targets | filter: $select.search | limitTo:maxOptionSize">
+                            <span ng-bind-html="target.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row small-vertical-spacing" ng-if="model.selectedSdgGoal">
+                <div class="col-sm-12">
+                    <label class="checkbox-inline"><input type="checkbox" value="">Global</label>
+                    <label class="checkbox-inline"><input type="checkbox" value="">Proxy</label>
+                </div>
+            </div>
+            <div class="row vertical-spacing pull-right">
+                <div class="col-sm-12">
+                    <button type="button"
+                            ng-disabled="!model.selectedSdgGoal"
+                            class="btn btn-primary"
+                            ng-click="getAnalyticsData()">
+                        {{'display_report'| translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 blue-info-area add-small-left-padding">
+            <div ng-include="'views/report-filter/report-filters.html'"></div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="model.reportReady">
+    <div class="col-sm-12" ng-if="model.dataExists">
+        <span class=" hideInPrint">
+            <span class="dropdown">
+                <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                <ul class="dropdown-menu">
+                    <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                    <li class="divider"></li>
+                    <li><a href ng-click="exportData()">{{'csv'| translate}}</a></li>
+                    <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                </ul>
+            </span>
+        </span>
+        <div id="exportTable">
+            <table class="table table-bordered table-striped" fixed-header>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="center" colspan="{{period.colSpan}}" ng-repeat="period in model.reportPeriods" ng-if="period.hasData">
+                            {{period.displayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>{{'sdg_target'| translate}}</th>
+                        <th>{{'sdg_indicator'| translate}}</th>
+                        <th>{{'rf_indicator'| translate}}</th>
+                        <th class="center" ng-repeat="header in model.dataHeaders">
+                            {{model.metaData.items[header.dimensionId].name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-include="'views/report-data/result-body.html'"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.dataExists">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

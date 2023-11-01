@@ -1,0 +1,200 @@
+[
+    {
+        "id": "NDP",
+        "domain": "NDP",
+        "displayName": "ndp_results",
+        "order": 1,
+        "hasChildren": true,
+        "show": true,
+        "color": "ndp_menu",
+        "children": [
+            {
+                "id": "HGH",
+                "order": 1,
+                "displayName": "high_level",
+                "show": true,
+                "domain": "HGH",
+                "hasChildren": true,
+                "children": [
+                    {
+                        "id": "VSN",
+                        "domain": "VSN",
+                        "code": "vision2040",
+                        "order": 2,
+                        "displayName": "vision_2040_targets",
+                        "children": [],
+                        "view": "components/vision/vision-status.html",
+                        "color": "ndp-menu"
+                    },
+                    {
+                        "id": "GOL",
+                        "domain": "NOUT",
+                        "code": "goal",
+                        "order": 3,
+                        "displayName": "goal_impact",
+                        "children": [],
+                        "view": "components/goal/goal-status.html",
+                        "color": "ndp-menu"
+                    },
+                    {
+                        "id": "OBJ",
+                        "domain": "NOUT",
+                        "code": "resultsFrameworkObjective",
+                        "order": 4,
+                        "displayName": "objective_outcomes",
+                        "children": [],
+                        "view": "components/objective/objective-status.html",
+                        "color": "ndp-menu"
+                    },
+                    {
+                        "id": "PRG",
+                        "domain": "PRGO",
+                        "code": "objective",
+                        "order": 5,
+                        "displayName": "outcome_level",
+                        "children": [],
+                        "view": "components/outcome/outcome-status.html",
+                        "color": "ndp-menu"
+                    }
+                ],
+                "color": "ndp-menu"
+            },
+            {
+                "id": "SUB",
+                "order": 2,
+                "displayName": "sub_programme_results",
+                "show": true,
+                "domain": "PRG",
+                "hasChildren": true,
+                "children": [
+                    {
+                        "id": "SUB-OUTCOME",
+                        "domain": "SUB-OUTCOME",
+                        "code": "sub-programme",
+                        "order": 1,
+                        "displayName": "intermediate_outcomes",
+                        "children": [],
+                        "view": "components/intermediate-outcome/intermdiate-outcome-status.html",
+                        "color": "ndp-menu"
+                    },
+                    {
+                        "id": "SUB-OUTPUT",
+                        "domain": "OUTPUT",
+                        "code": "sub-intervention",
+                        "order": 2,
+                        "displayName": "output_level",
+                        "show": true,
+                        "view": "components/output/output-status.html",
+                        "children": [],
+                        "color": "ndp-menu"
+                    },
+                    {
+                        "id": "ACT",
+                        "domain": "ACT",
+                        "code": "sub-intervention4action",
+                        "order": 4,
+                        "displayName": "action_level",
+                        "show": true,
+                        "view": "components/action/action-output-status.html",
+                        "children": [],
+                        "color": "ndp-menu"
+                    }
+                ],
+                "color": "ndp-menu"
+            }
+        ]
+    },
+    {
+        "id": "SPACE",
+        "displayName": "space",
+        "order": 2,
+        "children": []
+    },
+    {
+        "id": "TR",
+        "order": 3,
+        "displayName": "tracking",
+        "show": true,
+        "domain": "TR",
+        "hasChildren": true,
+        "children": [
+            {
+                "id": "PRJP",
+                "domain": "PRJP",
+                "code": "project",
+                "displayName": "project_performance",
+                "order": 1,
+                "children": [],
+                "view": "components/project/performance.html"
+            },
+            {
+                "id": "POAC",
+                "domain": "POAC",
+                "code": "policy",
+                "displayName": "policy_action",
+                "order": 1,
+                "children": [],
+                "view": "components/policy/performance.html"
+            }
+        ]
+    },
+    {
+        "id": "SPACE",
+        "displayName": "space",
+        "order": 4,
+        "children": []
+    },
+    {
+        "id": "DG",
+        "domain": "DG",
+        "code": "dataGovernance",
+        "displayName": "data_governance",
+        "order": 9,
+        "show": true,
+        "color": "dg-menu",
+        "children": [
+            {
+                "id": "DG-DICT",
+                "domain": "DICT",
+                "code": "DICT",
+                "displayName": "indicator_dictionary",
+                "view": "components/dictionary/dictionary-status.html",
+                "color": "dg-menu"
+            },
+            {
+                "id": "DG-WFG",
+                "domain": "WFG",
+                "code": "WFG",
+                "displayName": "workflow_guidelines",
+                "hasNoNDP": true,
+                "view": "views/workflow-guideline.html"
+            },
+            {
+                "id": "DG-FAQ",
+                "domain": "FAQ",
+                "code": "FAQ",
+                "displayName": "faqs",
+                "view": "components/faq/faq.html",
+                "hasNoNDP": true,
+                "color": "dg-menu"
+            }
+        ]
+    },
+    {
+        "id": "SPACE",
+        "displayName": "space",
+        "order": 10,
+        "children": []
+    },
+    {
+        "id": "LIB",
+        "domain": "LIB",
+        "code": "LIB",
+        "displayName": "document_library",
+        "order": 11,
+        "children": [],
+        "view": "components/library/library-status.html",
+        "hasNoNDP": true,
+        "color": "lib-menu"
+    }
+]

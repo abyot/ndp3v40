@@ -1,0 +1,31 @@
+<span class="col-sm-12 hideInPrint">
+    <span class="dropdown">
+        <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+        <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+            <li class="divider"></li>
+            <li><a href ng-click="exportData('performance')">{{'csv'| translate}}</a></li>
+            <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+        </ul>
+    </span>
+    <span class="dropdown">
+        <button class="btn btn-default" ng-click="getExplanations()" title="{{ model.showExplanation ? 'hide_explanations' : 'show_explanations' | translate}}">
+            <i class="fa fa-comment cursor-pointer" aria-hidden="true"></i>
+        </button>
+    </span>
+    <span class="dropdown" ng-if="(model.tableRows | filter: {hasData: false}).length > 0">
+        <button class="btn btn-default" ng-click="model.hideEmptyRows = !model.hideEmptyRows" title="{{ model.hideEmptyRows ? 'show_empty_rows' : 'hide_empty_rows' | translate}}">
+            <i class="fa fa-eye-slash cursor-pointer" aria-hidden="true"></i>
+        </button>
+    </span>
+</span>
+<div class="col-sm-12">
+    <span class="dropdown">
+        <span class="col-sm-3 bordered-div pull-right"
+              ng-repeat="header in model.performanceOverviewLegends| orderBy:'-order':reverse"
+              ng-style="header.style"
+              ng-class="header.printStyle">
+            {{header.name}}
+        </span>
+    </span>
+</div>

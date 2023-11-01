@@ -1,0 +1,44 @@
+<div ng-include="'components/goal/filters.html'"></div>
+<div class="row" ng-if="model.reportReady">
+    <div class="col-sm-12" ng-if="model.dataExists">
+        <span ng-include="'views/results-header.html'"></span>
+        <div id="result" class="table-scroll">
+            <table>
+                <tr>
+                    <td class="alert alert-warning" ng-repeat="period in model.reportPeriods" ng-if="!period.hasTargetData">
+                        {{period.displayName}} - {{'has_no_target_data' | translate}}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="center sticky" ng-repeat="period in model.reportPeriods" ng-if="period.hasTargetData">
+                            {{period.displayName}}
+                        </th>
+                        <th rowspan="2" class="vertical-center sticky">
+                            {{'vision_2040_target' | translate}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky">{{'goal'| translate}}</th>
+                        <th class="sticky">{{'kras'| translate}}</th>
+                        <th class="sticky">{{'indicators'| translate}}</th>
+                        <th class="sticky" ng-repeat="header in model.dataHeaders" ng-if="header.hasResultData">
+                            {{model.metaData.items[header.dimensionId].name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-include="'views/report-data/result-body-vision.html'"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.dataExists">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

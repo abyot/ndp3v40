@@ -1,0 +1,105 @@
+<div class="small-vertical-spacing hideInPrint">
+    <div class="selection-group">
+        <div class="col-sm-7 green-info-area">
+            <div class="row small-vertical-spacing">
+                <div class="col-sm-2">
+                    {{'document_folder'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedProgram"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.programDocumentFolders && model.programDocumentFolders.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="pr in model.programDocumentFolders | filter: $select.search | limitTo:maxOptionSize">
+                            <span ng-bind-html="pr.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row small-vertical-spacing" ng-if="model.isProgrammeDocument">
+                <div class="col-sm-2">
+                    {{'programme_sub'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedNdpProgram"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.optionSets[model.programmeDataElement.optionSet.id].options && model.optionSets[model.programmeDataElement.optionSet.id].options.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="option in model.optionSets[model.programmeDataElement.optionSet.id].options | orderBy: 'code' | filter: $select.search | limitTo:maxOptionSize">
+                            <span ng-if="option.code.length === 2">
+                                <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                            </span>
+                            <span ng-if="option.code.length > 2">
+                                <span class="indentation" ng-bind-html="option.displayName | highlight: $select.search"></span>
+                            </span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row vertical-spacing pull-right">
+                <div class="col-sm-12">
+                    <button type="button"
+                            class="btn btn-primary"
+                            ng-disabled="!model.selectedNdpProgram"
+                            ng-click="getProgramDocuments()">
+                        {{'display_documents'| translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 blue-info-area add-small-left-padding">
+            <div ng-include="'views/report-filter/report-filters-orgunit.html'"></div>
+        </div>
+    </div>
+</div>
+
+
+<div equal-height-nav-tabs ng-if="(!model.isProgrammeDocument || model.isProgrammeDocument && model.selectedNdpProgram.id) && model.selectedOptionSet && model.selectedOptionSet.options.length > 0">
+    <tabset justified="true">
+        <tab heading="{{option.displayName}}" class="horizontal-menu" ng-repeat="option in model.selectedOptionSet.options">
+            <div class="row vertical-spacing">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped" ng-if="(model.documents | documentFilter:option.code:model.selectedNdpProgram:model.programmeDataElement).length > 0">
+                        <thead>
+                            <tr>
+                                <th class="vertical-center" ng-repeat="header in model.dynamicHeaders">
+                                    {{header.displayName}}
+                                </th>
+                                <th class="vertical-center" ng-repeat="header in model.staticHeaders">
+                                    {{header.title | translate}}
+                                </th>
+                                <th class="vertical-center">
+                                    {{'action' | translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="document in model.documents | documentFilter:option.code:model.selectedNdpProgram:model.programmeDataElement">
+                                <td class="vertical-center" ng-repeat="header in model.dynamicHeaders">
+                                    {{document[header.id]}}
+                                </td>
+                                <td class="vertical-center" ng-repeat="header in model.staticHeaders">
+                                    {{document[header.id]}}
+                                </td>
+                                <td class="vertical-center">
+                                    <span ng-if="document.path">
+                                        <button type="button"
+                                                class="btn btn-success"
+                                                title="{{'download_file'| translate}}"
+                                                ng-click="downloadFile(document.path, $event)">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="vertical-spacing alert alert-warning" ng-if="(model.documents | filter : {folder: option.code}).length === 0">
+                        {{'no_files_available' | translate}}
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
+

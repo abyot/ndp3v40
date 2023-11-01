@@ -1,0 +1,56 @@
+<div ng-include="'components/intermediate-outcome/filters.html'"></div>
+<div class="row" ng-if="model.reportReady">
+    <div ng-if="model.hasPhysicalPerformanceData">
+        <div ng-include="'views/performance-overview-header.html'"></div>
+        <div id="performance_overview" class="col-sm-12 table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="center sticky" colspan="{{model.pHeadersLength}}"
+                            ng-repeat="period in model.reportPeriods"
+                            ng-if="period.hasData">
+                            {{period.displayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky">{{'programme_objectives'| translate}}</th>
+                        <th class="sticky">{{'outcomes'| translate}}</th>
+                        <th class="sticky">{{'indicators'| translate}}</th>
+                        <th class="center sticky pov-cell-width"
+                            ng-style="header.style"
+                            ng-class="header.printStyle"
+                            ng-repeat="header in model.performanceOverviewHeaders">
+                            {{header.id}}
+                            <br>%
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="row in model.povTableRows">
+                    <tr>
+                        <td>
+                            {{row.dataElementGroupSet}}
+                        </td>
+                        <td>
+                            {{row.dataElementGroup}}
+                        </td>
+                        <td>
+                            {{row.dataElementSize}}
+                        </td>
+                        <td ng-repeat="povh in model.performanceOverviewHeaders"
+                            ng-init="povValue = row.povPercent[row.dataElementGroupId + '-' + povh.id + '-' + povh.period]">
+                            {{povValue}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.hasPhysicalPerformanceData">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

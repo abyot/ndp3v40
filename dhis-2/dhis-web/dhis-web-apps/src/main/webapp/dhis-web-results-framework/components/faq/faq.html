@@ -1,0 +1,54 @@
+<div ng-controller="FaqController">
+    <div class="small-vertical-spacing hideInPrint">
+        <div class="selection-group">
+            <div class="col-sm-12 green-info-area">
+                <div class="row small-vertical-spacing">
+                    <div class="col-sm-2">
+                        {{'archive'| translate}}
+                    </div>
+                    <div class="col-sm-10">
+                        <ui-select ng-model="model.selectedProgram"
+                                   theme="select2"
+                                   style="width:100%;">
+                            <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.programs && model.programs.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="pr in model.programs | filter: $select.search | limitTo:maxOptionSize">
+                                <span ng-bind-html="pr.displayName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="model.selectedProgram">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive table-striped" ng-if="model.faqs.length > 0">
+                <thead>
+                    <tr>
+                        <th ng-repeat="header in model.dynamicHeaders">
+                            {{header.displayName}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="faq in model.faqs">
+                    <tr ng-click="showFaqResponse( faq )">
+                        <td ng-repeat="header in model.dynamicHeaders"
+                            class="cursor-pointer"
+                            ng-class="{'selected-row': model.selectedFaq && model.selectedFaq.event === faq.event}">
+                            {{faq[header.id]}}
+                        </td>
+                    </tr>
+                    <tr class="faq-details" ng-if="model.showFaqResponse && model.selectedFaq.event === faq.event">
+                        <td class="alert alert-info selected-row-container">
+                            {{faq.faqResponse}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-danger" ng-if="model.faqs.length === 0">
+            {{'no_faqs_to_display' | translate}}
+        </div>
+    </div>
+</div>

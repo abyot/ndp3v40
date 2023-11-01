@@ -1,0 +1,104 @@
+<div class="modal-header page">
+    <h3>{{'explanation_attachment'| translate}}</h3>
+</div>
+<div class="modal-body page">
+    <h5>
+        {{selectedDataElement.displayFormName}}
+        <span ng-if="!selectedCategoryCombo.isDefault">  - {{selectedCategoryOptionCombo.displayName}}</span>
+    </h5>
+    <table class="table table-bordered table-responsive table-striped">
+        <thead>
+            <tr>
+                <th class="col-sm-1">
+                    {{'dimension' | translate}}
+                </th>
+                <th class="col-sm-1">
+                    {{'value' | translate}}
+                </th>
+                <th class="col-sm-4">
+                    {{'attachment' | translate}}
+                </th>
+                <th class="col-sm-6">
+                    {{'explanation' | translate}}
+                </th>
+            </tr>
+        </thead>
+        <tr ng-repeat="aoc in selectedAttributeCategoryCombo.categoryOptionCombos" ng-if="aoc.dimensionType === 'target' || aoc.dimensionType === 'baseline'">
+            <td class="col-sm-1 vertical-center">
+                {{aoc.displayName}}
+            </td>
+            <td class="col-sm-1 vertical-center">
+                {{dataValues[selectedDataElement.id][selectedCategoryOptionCombo.id][aoc.id].aggregateValue}}
+            </td>
+            <td class="col-sm-4">
+                <input multiple type="file"
+                       file-upload="model.fileInput[aoc.id]"
+                       ng-disabled="aoc.dimensionType === 'actual' || !dataValues[selectedDataElement.id][selectedCategoryOptionCombo.id][aoc.id].value" />
+                <table class="small-vertical-spacing table table-bordered table-striped" ng-if="model.comment[aoc.id] && model.comment[aoc.id].attachment">
+                    <thead>
+                        <tr>
+                            <th>
+                                {{'file_name' | translate}}
+                            </th>
+                            <th>
+                                {{'action' | translate}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="attachmentId in model.comment[aoc.id].attachment">
+                            <td class="vertical-center">
+                                {{model.documents[attachmentId].name}}
+                            </td>
+                            <td class="vertical-center">
+                                <span ng-if="model.documents[attachmentId].path">
+                                    <button type="button"
+                                            class="btn btn-success"
+                                            title="{{'download_file'| translate}}"
+                                            ng-click="downloadFile(model.documents[attachmentId].path, $event)">
+                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-danger"
+                                            title="{{'delete_file'| translate}}"
+                                            ng-click="deleteFile(model.documents[attachmentId], aoc, $event)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>
+
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row col-sm-12 vertical-spacing" ng-if="model.fileInput[aoc.id].length > 0">
+                    <button type="button"
+                            class="btn btn-danger"
+                            title="{{'cancel' | translate}}"
+                            ng-click="cancelUpload(aoc)">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <button type="button"
+                            class="btn btn-primary"
+                            title="{{'upload' | translate}}"
+                            ng-click="uploadFile(aoc)">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+            </td>
+            <td class="col-sm-6 vertical-center">
+                <textarea rows="4"
+                        name="foo"
+                        ng-model="model.comment[aoc.id].explanation"
+                        class="form-control"
+                        ng-disabled="!dataValues[selectedDataElement.id][selectedCategoryOptionCombo.id][aoc.id].value"
+                        ng-class="getInputNotifcationClass(selectedDataElement.id, selectedCategoryOptionCombo.id, aoc.id)"
+                        d2-blur="saveComment(aoc)">
+                </textarea>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer page">
+    <button class="btn btn-default" data-ng-click="close()">{{'close'| translate}}</button>
+</div>

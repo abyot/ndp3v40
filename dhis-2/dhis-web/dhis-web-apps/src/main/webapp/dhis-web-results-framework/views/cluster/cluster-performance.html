@@ -1,0 +1,37 @@
+<div ng-include="'views/report-filter/cluster-metadata-filters.html'"></div>
+<div class="row" ng-if="model.clusterReportReady">
+    <div ng-if="model.hasClusterData">
+        <div id="performance_overview" class="col-sm-12 table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky">{{'programmes'| translate}}</th>
+                        <th class="sticky">{{'indicators'| translate}}</th>
+                        <th class="center sticky"
+                            ng-style="header.style"
+                            ng-class="header.printStyle"
+                            ng-repeat="header in model.clusterPerformanceOverviewHeaders">
+                            {{header.id}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="pr in model.selectedCluster.options | orderBy: ['code']">
+                    <tr>
+                        <td>
+                            {{pr.displayName}}
+                        </td>
+                        <td>{{model.clusterData[pr.code].size}}</td>
+                        <td ng-repeat="header in model.clusterPerformanceOverviewHeaders">
+                            {{model.clusterData[pr.code][header.id].pcnt}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.hasClusterData">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

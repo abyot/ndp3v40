@@ -1,0 +1,17 @@
+<tbody ng-repeat="row in model.povTableRows">
+    <tr>
+        <td>
+            {{row.dataElementGroupSet}}
+        </td>
+        <td>
+            {{row.dataElementGroup}}
+        </td>
+        <td>
+            {{row.dataElementSize}}
+        </td>
+        <td ng-repeat="povh in model.performanceOverviewHeaders"
+            ng-init="povValue = row.povPercent[row.dataElementGroupId + '-' + povh.id + '-' + povh.period]">
+            {{povValue}}
+        </td>
+    </tr>
+</tbody>

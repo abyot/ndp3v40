@@ -1,0 +1,157 @@
+{
+    "outCome": [
+        {"code": "09",
+        "costs": [
+            {
+                "code": "02",
+                "period": "2020July",
+                "value": 16
+            },
+            {
+                "code": "02",
+                "period": "2021July",
+                "value": 22
+            },
+            {
+                "code": "02",
+                "period": "2022July",
+                "value": 19
+            },
+            {
+                "code": "02",
+                "period": "2023July",
+                "value": 37
+            },
+            {
+                "code": "02",
+                "period": "2024July",
+                "value": 31
+            },
+            {
+                "code": "03",
+                "period": "2020July",
+                "value": 25
+            },
+            {
+                "code": "03",
+                "period": "2021July",
+                "value": 18
+            },
+            {
+                "code": "03",
+                "period": "2022July",
+                "value": 30
+            },
+            {
+                "code": "03",
+                "period": "2023July",
+                "value": 23
+            },
+            {
+                "code": "03",
+                "period": "2024July",
+                "value": 11
+            },
+            {
+                "code": "04",
+                "period": "2020July",
+                "value": 40
+            },
+            {
+                "code": "04",
+                "period": "2021July",
+                "value": 11
+            },
+            {
+                "code": "04",
+                "period": "2022July",
+                "value": 30
+            },
+            {
+                "code": "04",
+                "period": "2023July",
+                "value": 22
+            },
+            {
+                "code": "04",
+                "period": "2024July",
+                "value": 26
+            },
+            {
+                "code": "05",
+                "period": "2020July",
+                "value": 30
+            },
+            {
+                "code": "05",
+                "period": "2021July",
+                "value": 10
+            },
+            {
+                "code": "05",
+                "period": "2022July",
+                "value": 29
+            },
+            {
+                "code": "05",
+                "period": "2023July",
+                "value": 19
+            },
+            {
+                "code": "05",
+                "period": "2024July",
+                "value": 15
+            },
+            {
+                "code": "06",
+                "period": "2020July",
+                "value": 20
+            },
+            {
+                "code": "06",
+                "period": "2021July",
+                "value": 18
+            },
+            {
+                "code": "06",
+                "period": "2022July",
+                "value": 31
+            },
+            {
+                "code": "06",
+                "period": "2023July",
+                "value": 40
+            },
+            {
+                "code": "06",
+                "period": "2024July",
+                "value": 9
+            },
+            {
+                "code": "07",
+                "period": "2020July",
+                "value": 10
+            },
+            {
+                "code": "07",
+                "period": "2021July",
+                "value": 30
+            },
+            {
+                "code": "07",
+                "period": "2022July",
+                "value": 17
+            },
+            {
+                "code": "07",
+                "period": "2023July",
+                "value": 28
+            },
+            {
+                "code": "07",
+                "period": "2024July",
+                "value": 21
+            }
+        ]}
+    ]
+}

@@ -1,0 +1,160 @@
+<div equal-height-nav-tabs ng-if="(!model.isProgrammeDocument || model.isProgrammeDocument && model.selectedNdpProgram.id) && model.selectedOptionSet && model.selectedOptionSet.options.length > 0">
+    <tabset justified="true">
+        <tab heading="{{option.displayName}}" class="horizontal-menu" ng-repeat="option in model.selectedOptionSet.options">
+            <div class="row vertical-spacing" ng-if="!model.showFileUpload">
+                <div class="col-sm-12">
+                    <button type="button"
+                            class="btn btn-primary"
+                            title="{{'file_upload'| translate}}"
+                            ng-click="showFileUpload()">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row vertical-spacing" ng-if="model.showFileUpload">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">{{'select_file' | translate}}</div>
+                        <div class="panel-body">
+                            <input type="file" file-upload="model.fileInput"/>
+                            <table class="table table-bordered table-striped" ng-if="model.fileInput.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {{'file_name' | translate}}
+                                        </th>
+                                        <th>
+                                            {{'file_size' | translate}}
+                                        </th>
+                                        <th ng-repeat="header in model.dynamicHeaders">
+                                            {{header.displayName}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="file in model.fileInput">
+                                        <td>
+                                            {{file.name}}
+                                        </td>
+                                        <td>
+                                            {{file.size | fileSize}}
+                                        </td>
+                                        <td ng-repeat="header in model.dynamicHeaders">
+                                            <ng-form name="innerForm">
+                                                <div ng-if="header.optionSetValue">
+                                                    <ui-select ng-model="file[header.id]"
+                                                               ng-required="true"
+                                                               name="foo"
+                                                               theme="select2"
+                                                               style="width:100%;">
+                                                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.optionSets[header.optionSet.id].options && model.optionSets[header.optionSet.id].options.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                                                        <ui-select-choices repeat="option.displayName as option in model.optionSets[header.optionSet.id].options | filter: $select.search | limitTo:maxOptionSize">
+                                                            <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                                <div ng-if="!header.optionSetValue" ng-switch="header.valueType">
+                                                    <div ng-switch-when="NUMBER">
+                                                        <input type="number"
+                                                            name="foo"
+                                                            class="form-control pull-center"
+                                                            ng-required="true"
+                                                            ng-model="file[header.id]">
+                                                    </div>
+                                                    <div ng-switch-when="TEXT">
+                                                        <input type="text"
+                                                            name="foo"
+                                                            class="form-control pull-center"
+                                                            ng-required="true"
+                                                            ng-model="file[header.id]">
+                                                    </div>
+                                                    <div ng-switch-when="LONG_TEXT">
+                                                        <textarea rows="3"
+                                                            name="foo"
+                                                            class="form-control pull-center"
+                                                            ng-required="true"
+                                                            ng-model="file[header.id]">
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                                <span ng-messages="innerForm.foo.$error" ng-if="interacted(innerForm.foo)" class="required" ng-messages-include="../dhis-web-commons/angular-forms/error-messages.html"></span>
+                                            </ng-form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row col-sm-12 vertical-spacing">
+                                <button type="button"
+                                        class="btn btn-danger"
+                                        ng-disabled="model.fileUploadFinished || model.fileUpdloadStarted"
+                                        ng-click="cancelFileUpload()">
+                                    {{'cancel' | translate}}
+                                </button>
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        ng-disabled="model.fileUpdloadStarted"
+                                        ng-click="uploadFile(option)">
+                                    {{'upload' | translate}}
+                                </button>
+                                <div class="alert alert-warning" ng-if='model.fileUpdloadStarted'>
+                                    <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+                                    {{'file_upload_in_progress' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped" ng-if="(model.documents | documentFilter:option.code:model.selectedNdpProgram:model.programmeDataElement).length > 0">
+                        <thead>
+                            <tr>
+                                <th class="vertical-center" ng-repeat="header in model.dynamicHeaders">
+                                    {{header.displayName}}
+                                </th>
+                                <th class="vertical-center" ng-repeat="header in model.staticHeaders">
+                                    {{header.title | translate}}
+                                </th>
+                                <th class="vertical-center">
+                                    {{'action' | translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="document in model.documents | documentFilter:option.code:model.selectedNdpProgram:model.programmeDataElement">
+                                <td class="vertical-center" ng-repeat="header in model.dynamicHeaders">
+                                    {{document[header.id]}}
+                                </td>
+                                <td class="vertical-center" ng-repeat="header in model.staticHeaders">
+                                    {{document[header.id]}}
+                                </td>
+                                <td class="vertical-center">
+                                    <span ng-if="document.path">
+                                        <button type="button"
+                                                class="btn btn-success"
+                                                title="{{'download_file'| translate}}"
+                                                ng-click="downloadFile(document.path, $event)">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                title="{{'delete_file'| translate}}"
+                                                ng-click="deleteFile(document, $event)">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="alert alert-warning" ng-if="(model.documents | filter : {folder: option.code}).length === 0 && !model.showFileUpload">
+                        {{'no_files_available' | translate}}
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
+

@@ -1,0 +1,18 @@
+<tr ng-repeat="row in model.tableRows | emptyRowFilter:model.hideEmptyRows">
+    <td>
+        {{row.dataElementGroupSet}}
+    </td>
+    <td>
+        {{row.dataElementGroup}}
+    </td>
+    <td>
+        <span ng-if="model.showExplanation">[{{model.commentRow[row.dataElementId]}}]</span> {{row.dataElement}}
+        <i ng-click="getIndicatorDictionary(row.dataElementId)" class="fa fa-info-circle info-icon cursor-pointer hideInPrint" aria-hidden="true" title="{{'indicator_dictionary'| translate}}"></i>
+    </td>
+    <td ng-repeat="dh in model.dataHeaders"
+        ng-if="dh.dimensionId === model.targetDimension.id"
+        ng-style="row.styles[dh.dimensionId + '.' + dh.periodId].trafficLight"
+        ng-class="row.styles[dh.dimensionId + '.' + dh.periodId].printStyle">
+        {{row.values[dh.dimensionId + '.' + dh.periodId]}}
+    </td>
+</tr>

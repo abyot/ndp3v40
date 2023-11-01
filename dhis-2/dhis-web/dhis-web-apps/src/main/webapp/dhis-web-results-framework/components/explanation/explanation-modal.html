@@ -1,0 +1,70 @@
+<div class="modal-header page">
+    <h3>{{'data_value_details'| translate}}</h3>
+</div>
+
+<div class="modal-body page">
+    <div class="scroll" ng-if="fetchExplanation">
+        <h5 class="bold">
+            {{selectedItem.displayName}} ({{selectedAoc.displayName}})
+        </h5>
+        <table class="table table-bordered table-responsive" ng-if="dataVotes.length > 0">
+            <thead>
+                <tr>
+                    <th>
+                        {{'vote' | translate}}
+                    </th>
+                    <th>
+                        {{'period' | translate}}
+                    </th>
+                    <th>
+                        {{'value' | translate}}
+                    </th>
+                    <th>
+                        {{'attachment' | translate}}
+                    </th>
+                    <th>
+                        {{'explanation' | translate}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="vote in dataVotes">
+                <tr ng-repeat="period in dataPeriods | orderBy: 'id'"
+                    ng-init="dv = (dataValues | filter: {orgUnit: vote.id, period: period.id})[0]">
+                    <td>
+                        {{'vote' | translate}} - {{vote.code}}
+                    </td>
+                    <td>
+                        {{period.id}}
+                    </td>
+                    <td>
+                        {{dv.value}}
+                    </td>
+                    <td>
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="att in dv.comment.attachment" ng-if="documents[att] && documents[att].path && documents[att].name">
+                                <a href ng-click="downloadFile(documents[att].path, $event)">{{documents[att].name}} ({{documents[att].size}})</a>
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        {{dv.comment.explanation}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="dataVotes.length === 0">
+            <div class="alert alert-info">
+                {{'data_has_no_additional_info' | translate}}
+            </div>
+        </div>
+    </div>
+    <div ng-if="!fetchExplanation">
+        <div class="alert alert-danger">
+            {{'missing_information' | translate}}
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer page">
+    <button class="btn btn-primary" type="button" data-ng-click="close()">{{'close'| translate}}</button>
+</div>

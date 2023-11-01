@@ -1,0 +1,55 @@
+<div ng-include="'components/intermediate-outcome/filters.html'"></div>
+<div class="row" ng-if="model.reportReady">
+    <div class="col-sm-12" ng-if="model.dataExists">
+        <span class=" hideInPrint">
+            <span class="dropdown">
+                <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                <ul class="dropdown-menu">
+                    <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                    <li class="divider"></li>
+                    <li><a href ng-click="exportData('completeness')">{{'csv'| translate}}</a></li>
+                    <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                </ul>
+            </span>
+        </span>
+        <div id="completeness" class="table-scroll">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="center sticky" colspan="100%">
+                            {{'data_completeness' | translate}} = {{getCoverage(model.numerator, model.denominator)}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky"></th>
+                        <th class="center sticky" colspan="{{period.colSpan}}" ng-repeat="period in model.reportPeriods" ng-if="period.hasData">
+                            {{period.displayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky">{{'programme_objectives'| translate}}</th>
+                        <th class="center sticky" ng-repeat="header in model.dataHeaders">
+                            {{model.metaData.items[header.dimensionId].name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="objective in model.selectedDataElementGroupSets">
+                        <td>
+                            {{objective.displayName}}
+                        </td>
+                        <td class="center" ng-repeat="header in model.dataHeaders">
+                            {{getCoverage(objective['available'][header.periodId + '-' + header.dimensionId], objective['expected'][header.periodId + '-' + header.dimensionId])}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.dataExists">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>
+

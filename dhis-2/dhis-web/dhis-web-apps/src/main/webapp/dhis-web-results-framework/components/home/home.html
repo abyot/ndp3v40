@@ -1,0 +1,43 @@
+<span id="showLeftBar" class="hideInPrint">
+    <a href="javascript:dhis2.leftBar.showAnimated()" title="$i18n.getString('show_menu' )"><i class="fa fa-arrow-right leftBarIcon"></i></a>
+</span>
+
+<div id="leftBar">
+
+    <div ng-if="!model.metaDataCached" class="small-horizontal-spacing">
+        <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+        {{'loading_metadata'| translate}}
+    </div>
+
+    <div ng-show="model.metaDataCached">
+        <div ng-include="'views/left-bar-icons.html'"></div>
+        <div ng-include="'views/left-bar-menu.html'"></div>
+    </div>
+
+</div>
+
+
+<div class="page" id="mainPage">
+    <div ng-if="!model.metaDataCached" class="font-16">
+        <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+        {{'loading_metadata'| translate}}
+    </div>
+
+    <div ng-show="model.metaDataCached">
+        <form name="outerForm" novalidate>
+            <div ng-if="model.selectedMenu" ng-switch="model.selectedMenu.domain">
+                <div ng-include="model.selectedMenu.view"></div>
+            </div>
+            <div ng-if="!model.selectedMenu">
+                <carousel carousel-controls interval="5000" no-wrap="false">
+                    <slide ng-repeat="slide in model.slides">
+                        <img class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cursor-pointer slider-container"
+                             ng-src="{{slide.path}}"
+                             alt="{{slide.path}}">
+                    </slide>
+                </carousel>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,13 @@
+<span class="alert alert-warning vertical-spacing" ng-if="model.showExplanation && model.explanations.length === 0">
+    {{'no_explanation_exists'| translate}}
+</span>
+<table ng-if="model.showExplanation && model.explanations.length > 0">
+    <tr ng-repeat="explanation in model.explanations">
+        <td>
+            [{{$index + 1}}] {{model.dataElementsById[explanation.dataElement].displayName}}
+        </td>
+        <td>
+            {{explanation.comment}}
+        </td>
+    </tr>
+</table>

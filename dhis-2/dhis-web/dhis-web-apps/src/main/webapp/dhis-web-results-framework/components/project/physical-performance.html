@@ -1,0 +1,20 @@
+<div class="small-vertical-spacing" ng-if="model.showProjectDetails && model.selectedProject.trackedEntityInstance === project.trackedEntityInstance">
+    <div class="bordered-div">
+        <table>
+            <thead>
+                <tr>
+                    <th ng-repeat="prstDe in model.kpiProgram.programStages[0].programStageDataElements" ng-if="prstDe.displayInReports">
+                        {{prstDe.dataElement.displayName}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="kpi in model.projectKpis">
+                    <td ng-repeat="prstDe in model.kpiProgram.programStages[0].programStageDataElements" ng-if="prstDe.displayInReports">
+                        {{kpi[prstDe.dataElement.id]}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,215 @@
+<div ng-controller="LLGFinanceController">
+
+    <div class="small-vertical-spacing hideInPrint">
+        <div class="selection-group">
+            <div class="col-sm-5 green-info-area">
+                <div class="row small-vertical-spacing">
+                    <div class="col-sm-2">
+                        {{'llg'| translate}}
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text"
+                                   name="foo"
+                                   class="form-control cursor-pointer"
+                                   placeholder="{{'please_select'| translate}}"
+                                   title="{{'select_from_tree'| translate}}"
+                                   ng-model="selectedOrgUnit.displayName"
+                                   ng-readonly="{{true}}"
+                                   ng-required="true"
+                                   ng-click="showOrgUnitTree()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" title="{{'select_from_tree'| translate}}" ng-disabled="d2Disabled" ng-click="showOrgUnitTree(d2Object)">
+                                    <i class="fa fa-plus-square-o"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row small-vertical-spacing">
+                    <div class="col-sm-2">
+                        {{'year'| translate}}
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <ui-select ng-model="model.selectedPeriod"
+                                           theme="select2"
+                                           style="width:100%;">
+                                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.periods && model.periods.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.name|| $select.selected}}</ui-select-match>
+                                    <ui-select-choices  repeat="period in model.periods | filter: $select.search | limitTo:maxOptionSize">
+                                        <span ng-bind-html="period.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="pull-right">
+                                    <button type="button"
+                                            class="btn btn-default"
+                                            ng-click="getPeriods('PRV')"
+                                            title="{{'previous_periods'| translate}}">
+                                        <i class="fa fa-caret-left"></i>
+                                    </button>
+
+                                    <button type="button"
+                                            class="btn btn-default"
+                                            ng-disabled="periodOffset > -1"
+                                            ng-click="getPeriods('NXT')"
+                                            title="{{'next_periods'| translate}}">
+                                        <i class="fa fa-caret-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row vertical-spacing pull-right">
+                    <div class="col-sm-12">
+                        <button type="button"
+                                class="btn btn-primary"
+                                ng-disabled="!model.llgFinanceDataSet || !selectedOrgUnit || !model.selectedPeriod"
+                                ng-click="getAnalyticsData()">
+                            {{'display_report'| translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 blue-info-area add-small-left-padding">
+                <div class="panel report-filter custom-panel">
+                    <div class="panel-heading cursor-pointer custom-panel" ng-click="showReportFilters = !showReportFilters">
+                        {{'advanced_report_filters_finance'| translate}}
+                        <div class="pull-right">
+                            <span ng-show="showReportFilters">
+                                <i class="fa fa-minus-square-o fa-2x vertical-center" title="{{'collapse'| translate}}"></i>
+                            </span>
+                            <span ng-show="!showReportFilters">
+                                <i class="fa fa-plus-square-o fa-2x vertical-center" title="{{'expand'| translate}}"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="panel panel-body custom-panel no-radius remove-bottom-margin" ng-if="showReportFilters">
+                        <div class="row small-vertical-spacing">
+                            <div class="col-sm-2">
+                                {{'fund_type'| translate}}
+                            </div>
+                            <div class="col-sm-10">
+                                <ui-select ng-model="model.dataFilter.fundType"
+                                           theme="select2"
+                                           style="width:100%;">
+                                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.llgFinanceFundTypes && model.llgFinanceFundTypes.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option.displayName as option in model.llgFinanceFundTypes | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                                        <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="row small-vertical-spacing">
+                            <div class="col-sm-2">
+                                {{'sector'| translate}}
+                            </div>
+                            <div class="col-sm-10">
+                                <ui-select ng-model="model.dataFilter.sector"
+                                           on-select="processFilters('SECTOR')"
+                                           on-remove="processFilters('SECTOR')"
+                                           theme="select2"
+                                           style="width:100%;">
+                                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.sectors && model.sectors.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option.displayName as option in model.sectors | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                                        <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="row small-vertical-spacing">
+                            <div class="col-sm-2">
+                                {{'work_plan'| translate}}
+                            </div>
+                            <div class="col-sm-10">
+                                <ui-select ng-model="model.dataFilter.workPlan"
+                                           on-select="processFilters('WORKPLAN')"
+                                           on-remove="processFilters('WORKPLAN')"
+                                           theme="select2"
+                                           style="width:100%;">
+                                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.workPlans && model.workPlans.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option.displayName as option in model.workPlans | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                                        <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="row small-vertical-spacing">
+                            <div class="col-sm-2">
+                                {{'programme'| translate}}
+                            </div>
+                            <div class="col-sm-10">
+                                <ui-select ng-model="model.dataFilter.programme"
+                                           on-select="processFilters('PROGRAMME')"
+                                           on-remove="processFilters('PROGRAMME')"
+                                           theme="select2"
+                                           style="width:100%;">
+                                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.programmes && model.programmes.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="option.displayName as option in model.programmes | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                                        <span ng-bind-html="option.displayName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="!model.reportStarted && model.reportReady">
+        <div class="col-sm-12" ng-if="model.dataExists">
+            <span class=" hideInPrint">
+                <span class="dropdown">
+                    <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                        <li class="divider"></li>
+                        <li><a href ng-click="exportData()">{{'csv'| translate}}</a></li>
+                        <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                    </ul>
+                </span>
+            </span>
+            <div id="exportTable" class="table-scroll">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="cursor-pointer" ng-attr-title="{{'click_to_sort'| translate}}" ng-repeat="header in model.dataHeaders" ng-click="setSortHeader(header)">
+                                {{header.name}}<br>
+                                <span class="fa-stack hideInPrint pull-right">
+                                    <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && !reverse]"><i class="fa fa-sort-asc fa-stack-1x"></i></span>
+                                    <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && reverse]"><i class="fa fa-sort-desc fa-stack-1x"></i></span>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in model.data | orderBy:sortHeader.id:reverse | dataFilter:model.dataFilter">
+                            <td class="vertical-center" ng-repeat="header in model.dataHeaders">
+                                {{row[header.id]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-if="!model.dataExists">
+            <div class="alert alert-warning">
+                {{'no_data_exists'| translate}}
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" ng-if="model.reportStarted && !model.reportReady">
+        <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+        {{'fetching_data'| translate}}
+    </div>
+
+    <div class="alert alert-warning" ng-if="!selectedOrgUnit">
+        {{'please_select_llg'| translate}}
+    </div>
+
+</div>

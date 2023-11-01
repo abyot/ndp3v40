@@ -1,0 +1,22 @@
+<div class="small-vertical-spacing" ng-if="model.showProjectDetails && model.selectedProject.trackedEntityInstance === project.trackedEntityInstance">
+    <div class="bordered-div">
+        <table>
+            <thead>
+                <tr>
+                    <th>{{'description' | translate}}</th>
+                    <th>{{'value' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="prstDe in model.selectedProgramStage.programStageDataElements" ng-if="prstDe.displayInReports">
+                    <td>
+                        {{prstDe.dataElement.displayName}}
+                    </td>
+                    <td>
+                        {{model.selectedProject.status[prstDe.dataElement.id]}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

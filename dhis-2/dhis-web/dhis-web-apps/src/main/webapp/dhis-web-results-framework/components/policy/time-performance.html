@@ -1,0 +1,26 @@
+<div class="small-vertical-spacing" ng-if="model.showProjectDetails && model.selectedProject.trackedEntityInstance === project.trackedEntityInstance">
+    <div class="bordered-div">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th class="center" ng-repeat="header in model.performanceHeaders">
+                        {{header.displayName}}
+                    </th>
+                    <th class="center" ng-repeat="event in model.selectedProject.enrollments[0].events">
+                        Q{{$index+1}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tp in model.timePerformance">
+                    <td ng-repeat="header in model.performanceHeaders">
+                        {{tp[header.id]}}
+                    </td>
+                    <td ng-repeat="tpqv in tp.qvs track by $index">
+                        {{tpqv}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

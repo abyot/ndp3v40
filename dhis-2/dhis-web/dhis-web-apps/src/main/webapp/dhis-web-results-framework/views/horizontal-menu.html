@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div equal-height-nav-tabs>
+            <tabset justified="true">
+                <tab heading="{{horizontalMenu.title| translate}}"
+                     class="{{getMenuStyle(horizontalMenu)}}"
+                     ng-repeat="horizontalMenu in model.horizontalMenus | orderBy:'order'"
+                     active="horizontalMenu.active"
+                     ng-click="resetView(horizontalMenu, $event)">
+                    <div ng-include="horizontalMenu.view"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<span class=" hideInPrint">
+    <span class="dropdown">
+        <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+        <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+            <li class="divider"></li>
+            <li><a href ng-click="exportData('result')">{{'csv'| translate}}</a></li>
+            <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+        </ul>
+    </span>
+    <span class="dropdown" ng-if="(model.tableRows | filter: {hasData: false}).length > 0">
+        <button class="btn btn-default" ng-click="model.hideEmptyRows = !model.hideEmptyRows" title="{{ model.hideEmptyRows ? 'show_empty_rows' : 'hide_empty_rows' | translate}}">
+            <i class="fa fa-eye-slash cursor-pointer" aria-hidden="true"></i>
+        </button>
+    </span>
+</span>

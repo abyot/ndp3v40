@@ -12,5 +12,29 @@
     </action>
   </package>
 
+  <package name="dhis-web-document-library" extends="dhis-web-commons" namespace="/dhis-web-document-library">
+    <action name="index" class="org.hisp.dhis.commons.action.NoAction">
+      <result name="success" type="redirect">index.html</result>
+    </action>
+  </package>
+
+  <package name="dhis-web-ndp-target-setting" extends="dhis-web-commons" namespace="/dhis-web-ndp-target-setting">
+    <action name="index" class="org.hisp.dhis.commons.action.NoAction">
+      <result name="success" type="redirect">index.html</result>
+    </action>
+  </package>
+
+  <package name="dhis-web-performance-dataentry" extends="dhis-web-commons" namespace="/dhis-web-performance-dataentry">
+    <action name="index" class="org.hisp.dhis.commons.action.NoAction">
+      <result name="success" type="redirect">index.html</result>
+    </action>
+  </package>
+
+  <package name="dhis-web-ndp-target" extends="dhis-web-commons" namespace="/dhis-web-ndp-target">
+    <action name="index" class="org.hisp.dhis.commons.action.NoAction">
+      <result name="success" type="redirect">index.html</result>
+    </action>
+  </package>
+
   <!-- INJECT BUNDLED APPS HERE -->
 </struts>

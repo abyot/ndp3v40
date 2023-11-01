@@ -1,0 +1,41 @@
+<div ng-include="'components/output/filters.html'"></div>
+<div class="row" ng-if="model.reportReady">
+    <div class="col-sm-12" ng-if="model.dataExists">
+        <span ng-include="'views/results-header.html'"></span>
+        <div id="result" class="table-scroll">
+            <table>
+                <tr>
+                    <td class="alert alert-warning" ng-repeat="period in model.reportPeriods" ng-if="!period.hasTargetData">
+                        {{period.displayName}} - {{'has_no_target_data' | translate}}
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="center sticky" ng-repeat="period in model.reportPeriods" ng-if="period.hasTargetData">
+                            {{period.displayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky">{{'sub_interventions'| translate}}</th>
+                        <th class="sticky">{{'outputs'| translate}}</th>
+                        <th class="sticky">{{'indicators'| translate}}</th>
+                        <th class="center sticky" ng-repeat="header in model.dataHeaders" ng-if="header.hasResultData">
+                            {{model.metaData.items[header.dimensionId].name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-include="'views/report-data/result-body.html'"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.dataExists">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

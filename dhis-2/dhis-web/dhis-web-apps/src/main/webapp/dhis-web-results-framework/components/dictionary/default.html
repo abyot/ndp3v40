@@ -1,0 +1,84 @@
+<h2>
+    {{'indicator_list'| translate}}
+</h2>
+
+<div ng-if="!model.reportStarted && model.reportReady">
+    <div ng-if="model.dataElements.length > 0">
+        <div class="hideInPrint">
+            <div class="row">
+                <div class="col-sm-6 input-group cursor-pointer">
+                    <input type="text"
+                        ng-model="model.filterText"
+                        placeholder="{{'filter_by_name_code'| translate}}"
+                        class="form-control">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="button" title="{{'search'| translate}}" ng-click="filterIndicators()">
+                            {{'search' | translate}}
+                        </button>
+                        <span class="dropdown">
+                            <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                            <ul class="dropdown-menu">
+                                <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                                <li class="divider"></li>
+                                <li><a href filename="indicator-dictionary.csv" ng-click="exportData()">{{'csv'| translate}}</a></li>
+                                <li><a href filename="indicator-dictionary.pdf" onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                            </ul>
+                        </span>
+                        <span>
+                            <label class="btn btn-default horizontal-spacing" ng-click="showHideColumns()" ng-attr-title="{{'show_hide_columns'| translate}}">
+                                <i class="fa fa-table label-font"></i>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="long-horizontal-spacing">
+                        {{'total_no_indicators'| translate}} = {{model.totalDataElements}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="exportTable" class="table-scroll small-vertical-spacing">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky">
+                            {{'completeness'| translate}}
+                        </th>
+                        <th class="sticky cursor-pointer" ng-click="sortItems(header)" ng-repeat="header in model.dictionaryHeaders | filter: {show: true}">
+                            {{header.name| translate}}
+                            <span class="fa-stack hideInPrint" ng-if='header.sortable'>
+                                <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && sortHeader.direction === 'asc']"><i class="fa fa-sort-asc fa-stack-1x"></i></span>
+                                <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && sortHeader.direction === 'desc']"><i class="fa fa-sort-desc fa-stack-1x"></i></span>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in model.dataElements" ng-click="showDetails(item)">
+                        <td title="{{'click_here_for_details'| translate}}" ng-style="item.inlineStyle" ng-class="item.completeness">
+                            {{item.completenessRate}}
+                        </td>
+                        <td title="{{'click_here_for_details'| translate}}" class="cursor-pointer" ng-repeat="header in model.dictionaryHeaders | filter: {show: true}">
+                            {{header.id ==='vote' && item.orgUnit? item.orgUnit : item[header.id]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row hideInPrint">
+        <serverside-paginator></serverside-paginator>
+    </div>
+    <div class="vertical-spacing" ng-if="model.dataElements.length === 0">
+        <div class="alert alert-warning">
+            {{'no_indicators_defined'| translate}}
+        </div>
+    </div>
+</div>
+
+<div ng-if="model.reportStarted && !model.reportReady" class="vertical-spacing">
+    <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+    {{'loading_metadata'| translate}}
+</div>
+

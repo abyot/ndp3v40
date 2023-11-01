@@ -1,0 +1,25 @@
+<div ng-if="model.dashboardFetched">
+
+    <!--<dhis2-dashboard downloadlabel="model.downloadLabel" dashboard="model.dashboardItems"></dhis2-dashboard>-->
+
+    <!--<div dhis2-dashboard charts="model.charts" tables="model.tables" maps="model.maps">
+        <div class="dashboard-item-container vertical-spacing" ng-repeat="dashboardItem in model.dashboardItems">
+            <div class="col-sm-12">
+                <span class="btn btn-default pull-right"
+                    title="{{'download_visualization' | translate}}"
+                    ng-click="downloadVisualization( dashboardItem.id)"
+                    dashboard-item-id="dashboardItem.id"
+                    dashboard-item-name="dashboardItem.visualization.displayName"
+                    dashboard-item-type="dashboardItem.type"
+                    dhis2-dashboard-download>
+                  <i class="fa fa-download"></i>
+              </span>
+            </div>
+
+            <div id="{{dashboardItem.id}}"></div>
+        </div>
+    </div>-->
+    <div class="vertical-spacing alert alert-warning" ng-if="!model.dashboardItems || model.dashboardItems.length < 1">
+        {{'dashboard_not_found' | translate}}:  {{model.dashboardName}}
+    </div>
+</div>

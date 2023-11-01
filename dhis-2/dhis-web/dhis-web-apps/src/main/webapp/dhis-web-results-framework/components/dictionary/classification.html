@@ -1,0 +1,84 @@
+<h2>
+    {{'indicator_list'| translate}}
+</h2>
+
+<div class="row" ng-if="model.classificationGroup">
+    <div class="col-sm-12 small-vertical-spacing">
+        <ui-select ng-model="model.selectedClassification"
+                   theme="select2"
+                   style="width:100%;">
+            <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.classificationGroup && model.classificationGroup.dataElementGroups && model.classificationGroup.dataElementGroups.length > 0 ? 'please_select_classification' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+            <ui-select-choices repeat="group in model.classificationGroup.dataElementGroups | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                <span ng-bind-html="group.displayName | highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="col-sm-12 small-vertical-spacing">
+        <input type="text" ng-model="model.filterText" class="form-control" placeholder="{{'filter_by_name_code'| translate}}">
+    </div>
+
+    <div class="col-sm-12">
+        <div id="exportTable" class="table-scroll vertical-spacing" ng-if="model.classificationIndicatorsFetched && model.classificationDataElements.length > 0">
+            <span class="hideInPrint vertical-spacing">
+                <span class="dropdown">
+                    <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                    <ul class="dropdown-menu">
+                        <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                        <li class="divider"></li>
+                        <li><a href filename="indicator-dictionary.csv" ng-click="exportData()">{{'csv'| translate}}</a></li>
+                        <li><a href filename="indicator-dictionary.pdf" onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                    </ul>
+                </span>
+                <label class="btn btn-default horizontal-spacing" ng-click="showHideColumns()" ng-attr-title="{{'show_hide_columns'| translate}}">
+                    <i class="fa fa-table label-font"></i>
+                </label>
+                <label class="long-horizontal-spacing">
+                    {{'total_no_indicators'| translate}} = {{model.classificationDataElements.length}}
+                </label>
+            </span>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th class="sticky" ng-click="sortItems(header)" >
+                            {{'completeness'| translate}}
+                        </th>
+                        <th class="sticky cursor-pointer" ng-click="sortItems(header)" ng-repeat="header in model.dictionaryHeaders| filter: {show: true}">
+                            {{header.name| translate}}
+                            <span class="fa-stack hideInPrint">
+                                <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && !reverse]"><i class="fa fa-sort-asc fa-stack-1x"></i></span>
+                                <span ng-class="{true: 'alert-danger'} [sortHeader.id === header.id && reverse]"><i class="fa fa-sort-desc fa-stack-1x"></i></span>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in model.classificationDataElements | orderBy:sortHeader.id:reverse | multiColumnFilter:model.filterText" ng-click="showDetails(item.id)">
+                        <td ng-class="item.completeness">
+                            {{item.completenessRate}}
+                        </td>
+                        <td class="cursor-pointer" ng-repeat="header in model.dictionaryHeaders| filter: {show: true}">
+                            {{item[header.id]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-sm-12 vertical-spacing" ng-if="model.classificationIndicatorsFetched && model.classificationDataElements.length === 0">
+        <div class="alert alert-warning">
+            {{'classification_has_no_indicator'| translate}}
+        </div>
+    </div>
+
+    <div ng-if="!model.classificationIndicatorsFetched" class="vertical-spacing">
+        <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+        {{'loading_metadata'| translate}}
+    </div>
+</div>
+
+<div class="vertical-spacing" ng-if="!model.classificationGroup">
+    <div class="alert alert-warning">
+        {{'missing_indicator_classification'| translate}}
+    </div>
+</div>

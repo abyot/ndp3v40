@@ -1,0 +1,70 @@
+<div ng-include="'components/action/filters.html'"></div>
+<div class="row" ng-if="model.reportReady">
+    <div ng-if="model.dataExists">
+        <span ng-include="'views/results-header.html'"></span>
+        <div class="col-sm-12">
+            <span class="dropdown">
+                <span class="col-sm-3 bordered-div pull-right"
+                      ng-repeat="header in model.performanceOverviewLegends | orderBy:'-order':reverse"
+                      ng-style="header.style"
+                      ng-class="header.printStyle">
+                    {{header.name}}
+                </span>
+            </span>
+        </div>
+        <div id="performance" class="col-sm-12 table-scroll">
+            <div ng-include="'views/explanation-list.html'"></div>
+            <table>
+                <tr>
+                    <td class="alert alert-warning" ng-repeat="period in model.reportPeriods" ng-if="!period.hasData">
+                        {{period.displayName}} - {{'has_no_budget_data' | translate}}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="sticky"></th>
+                        <th class="center sticky" colspan="{{period.colSpan}}" ng-repeat="period in model.reportPeriods" ng-if="period.hasData">
+                            {{period.displayName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="sticky">{{'sub_interventions'| translate}}</th>
+                        <th class="sticky">{{'outputs'| translate}}</th>
+                        <th class="sticky">{{'action'| translate}}</th>
+                        <th class="center sticky" ng-repeat="header in model.dataHeaders">
+                            {{header.name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in model.tableRows | emptyRowFilter:model.hideEmptyRows">
+                        <td>
+                            {{row.dataElementGroupSet}}
+                        </td>
+                        <td>
+                            {{row.dataElementGroup}}
+                        </td>
+                        <td>
+                            <span ng-if="model.showExplanation">[{{model.commentRow[row.dataElementId]}}]</span> {{row.dataElement}}
+                            <i ng-click="getIndicatorDictionary(row.dataElementId)" class="fa fa-info-circle info-icon cursor-pointer hideInPrint" aria-hidden="true" title="{{'indicator_dictionary'| translate}}"></i>
+                        </td>
+                        <td ng-repeat="dh in model.dataHeaders"
+                            ng-style="row.styles[dh.dimensionId + '.' + dh.periodId].inlineStyle"
+                            ng-class="row.styles[dh.dimensionId + '.' + dh.periodId].printStyle">
+                            {{row.values[dh.dimensionId + '.' + dh.periodId]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.dataExists">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

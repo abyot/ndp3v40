@@ -1,0 +1,51 @@
+<div class="panel report-filter custom-panel">
+    <div class="panel-heading cursor-pointer custom-panel" ng-click="showReportFilters = !showReportFilters">
+        {{'advanced_report_filters_fy'| translate}}
+        <div class="pull-right">
+            <span ng-show="showReportFilters">
+                <i class="fa fa-minus-square-o fa-2x vertical-center" title="{{'collapse'| translate}}"></i>
+            </span>
+            <span ng-show="!showReportFilters">
+                <i class="fa fa-plus-square-o fa-2x vertical-center" title="{{'expand'| translate}}"></i>
+            </span>
+        </div>
+    </div>
+    <div class="panel panel-body custom-panel no-radius remove-bottom-margin" ng-if="showReportFilters">
+        <div class="row small-vertical-spacing">
+            <div class="col-sm-2">
+                {{'fiscal_year'| translate}}
+            </div>
+            <div class="col-sm-10">
+                <div class="col-sm-12">
+                    <d2-multi-select
+                        ng-model="model.selectedPeriods"
+                        available="model.periods"
+                        available-label="{{'available_periods'| translate}}"
+                        selected-label="{{'selected_periods'| translate}}"
+                        display-attr="displayName">
+                    </d2-multi-select>
+                </div>
+                <div class="small-vertical-spacing">
+                    <div class="col-sm-6">
+                        <div class="pull-left">
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="getPeriods('PRV')"
+                                    title="{{'previous_periods'| translate}}">
+                                <i class="fa fa-backward"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-disabled="periodOffset > -1"
+                                    ng-click="getPeriods('NXT')"
+                                    title="{{'next_periods'| translate}}">
+                                <i class="fa fa-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

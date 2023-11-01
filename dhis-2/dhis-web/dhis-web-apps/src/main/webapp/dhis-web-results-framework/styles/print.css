@@ -1,0 +1,33 @@
+body, html {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.not-for-screen {
+    display: block !important;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: white !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: white !important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white !important;
+}
+
+#header, #leftBar, .hideInPrint {
+    display: none !important;
+}
+
+span.select2-chosen.ng-binding.ng-hide {
+    display: none !important;
+}
+
+.select2-arrow, .ui-select-toggle {
+    display: none !important;
+}

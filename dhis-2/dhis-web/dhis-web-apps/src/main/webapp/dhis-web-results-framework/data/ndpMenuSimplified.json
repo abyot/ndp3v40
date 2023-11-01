@@ -1,0 +1,90 @@
+[
+  {
+    "id": "GOV",
+    "domain": "GOV",
+    "code": "GOV",
+    "displayName": "government_wide_outcomes",
+    "order": 0,
+    "children": [],
+    "view": "components/vision2040/vision2040-status.html",
+    "color": "ndp_menu"
+  },
+  {
+    "id": "PRG-OUTC",
+    "domain": "PRG-OUTC",
+    "code": "objective",
+    "order": 1,
+    "displayName": "programme_outcomes",
+    "children": [],
+    "view": "components/programme-outcome/programme-status.html",
+    "color": "ndp-menu"
+  },
+  {
+    "id": "SUB-OUTPUT",
+    "domain": "OUTPUT",
+    "code": "sub-intervention",
+    "order": 2,
+    "displayName": "sub_programme_outputs",
+    "show": true,
+    "view": "components/sub-programme-output/sub-programme-output-status.html",
+    "children": [],
+    "color": "ndp-menu"
+  },
+  {
+    "id": "SSP-ACT",
+    "domain": "ACT",
+    "code": "sub-intervention4action",
+    "order": 3,
+    "displayName": "ssp_and_activities",
+    "show": true,
+    "view": "components/activity/activity-output-status.html",
+    "children": [],
+    "color": "ndp-menu"
+  },
+  {
+    "id": "SPACE",
+    "displayName": "space",
+    "order": 4,
+    "children": []
+  },
+  {
+    "id": "PRJP",
+    "domain": "PRJP",
+    "code": "project",
+    "displayName": "project_tracker",
+    "order": 5,
+    "children": [],
+    "view": "components/project/performance.html"
+  },
+  {
+    "id": "SPACE",
+    "displayName": "space",
+    "order": 6,
+    "children": []
+  },
+  {
+    "id": "DG-DICT",
+    "domain": "DICT",
+    "code": "DICT",
+    "order": 7,
+    "children": [],
+    "displayName": "indicator_dictionary",
+    "view": "components/dictionary/dictionary-status.html",
+    "color": "dg-menu"
+  },
+  {
+    "id": "SPACE",
+    "displayName": "space",
+    "order": 8,
+    "children": []
+  },
+  {
+    "id": "RES",
+    "domain": "RES",
+    "code": "DICT",
+    "order": 9,
+    "children": [],
+    "displayName": "resources",
+    "color": "dg-menu"
+  }
+]

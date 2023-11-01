@@ -1,0 +1,147 @@
+<div ng-controller="PolicyController">
+
+    <div class="selection-group hideInPrint">
+        <div class="col-sm-7 green-info-area">
+            <div class="row small-vertical-spacing">
+                <div class="col-sm-2">
+                    {{'programme'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedProgram"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.programs && model.programs.length > 0 ? 'please_select_program' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="program in model.programs | filter: $select.search | limitTo:maxOptionSize | orderBy: ['code']">
+                            <span ng-bind-html="program.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row vertical-spacing pull-right">
+                <div class="col-sm-12">
+                    <button type="button"
+                            class="btn btn-primary"
+                            ng-disabled="!model.selectedProgram"
+                            ng-click="fetchProgramDetails()">
+                        {{'display_report'| translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 blue-info-area add-small-left-padding">
+            <div ng-include="'views/report-filter/report-filters-orgunit.html'"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" ng-if="model.projectFetchStarted && !model.projectsFetched">
+            <div class="alert alert-info">
+                <img src="../images/ajax-loader-bar.gif" alt="{{'in_progress'| translate}}"/><br>
+                {{'fetching_projects'| translate}}
+            </div>
+        </div>
+        <div class="col-sm-12" ng-if="model.projects.length > 0 && model.projectsFetched">
+            <div class="hideInPrint">
+                <div class="row">
+                    <span class="dropdown col-sm-12">
+                        <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                            <li class="divider"></li>
+                            <li><a href ng-click="exportData(model.selectedProgram.displayName)">{{'csv'| translate}}</a></li>
+                            <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                        </ul>
+                    </span>
+                    <span ng-if="(model.selectedProgram.programTrackedEntityAttributes | filter:{searchable: true}).length > 0">
+                        <label class="btn btn-success horizontal-spacing" ng-click="model.showProjectFilter = !model.showProjectFilter" ng-attr-title="{{'search_projects'| translate}}">
+                            <i class="fa fa-search label-font"></i>
+                        </label>
+                    </span>
+                </div>
+                <div class="row add-small-margin vertical-spacing" ng-if="model.showProjectFilter">
+                    <table class="col-sm-12">
+                        <tr ng-repeat="att in model.selectedProgram.programTrackedEntityAttributes | orderBy: 'sortOrder' | filter: {searchable: true}">
+                            <td class="col-sm-4">
+                                {{att.displayName}}
+                            </td>
+                            <td class="col-sm-8">
+                                <input type="text" ng-model="model.filterText[att.trackedEntityAttribute.id]" class="form-control"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="100%">
+                                <button type="button" class="btn btn-primary pull-right" ng-click="searchProjects()">{{'search'| translate}}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="exportTable" class="table-scroll">
+                <table class="listTable dhis2-table-striped-border">
+                    <thead>
+                        <tr>
+                            <th class="sticky">
+                                {{'vote' | translate}}
+                            </th>
+                            <th class="sticky" ng-repeat="att in model.selectedProgram.programTrackedEntityAttributes | orderBy: 'sortOrder' | filter: {displayInList: true}">
+                                {{att.trackedEntityAttribute.displayName}}
+                            </th>
+                            <th>
+                                {{'duration_months' | translate}}
+                            </th>
+                            <th class="sticky" ng-repeat="de in model.selectedProgram.programStages[0].programStageDataElements | filter: {displayInReports: true}">
+                                {{de.dataElement.displayName}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="project in model.projects" >
+                        <tr>
+                            <td class="vertical-center">{{project.vote}}</td>
+                            <td ng-style="project.style[att.trackedEntityAttribute.id].inlineStyle"
+                                ng-class="project.style[att.trackedEntityAttribute.id].printStyle"
+                                class="vertical-center word-wrap"
+                                ng-repeat="att in model.selectedProgram.programTrackedEntityAttributes | orderBy: 'sortOrder' | filter: {displayInList: true}"
+                                ng-class="{true: 'col-sm-4', false: 'col-sm-1'} [project[att.trackedEntityAttribute.id].length > 70]">
+                                <span ng-switch="att.valueType">
+                                    <span ng-switch-when="BOOLEAN">
+                                        <span ng-if="project[att.trackedEntityAttribute.id] === 'true'"><i class="fa fa-check"></i></span>
+                                    </span>
+                                    <span ng-switch-when="TRUE_ONLY">
+                                        <span ng-if="project[att.trackedEntityAttribute.id] === 'true'"><i class="fa fa-check"></i></span>
+                                    </span>
+                                    <span ng-switch-default>
+                                        {{project[att.trackedEntityAttribute.id]}}
+                                    </span>
+                                </span>
+                            </td>
+                            <td class="vertical-center">{{project.duration}}</td>
+                            <td class="vertical-center"
+                                ng-repeat="de in model.selectedProgram.programStages[0].programStageDataElements| filter: {displayInReports: true}"
+                                ng-style="project.style[de.dataElement.id].inlineStyle"
+                                ng-class="project.style[de.dataElement.id].printStyle">
+                                {{project.status[de.dataElement.id]}}
+                            </td>
+                        </tr>
+                        <tr class="project-details" ng-if="model.showProjectDetails && model.selectedProject.trackedEntityInstance === project.trackedEntityInstance">
+                            <td colspan="100%">
+                                Need to display full project details
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="hideInPrint">
+                <basic-serverside-paginator></basic-serverside-paginator>
+            </div>
+        </div>
+        <div class="col-sm-12" ng-if="model.projects.length === 0 && model.projectsFetched">
+            <div class="alert alert-warning">
+                {{'no_data_to_show'| translate}}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

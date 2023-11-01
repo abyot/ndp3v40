@@ -1,0 +1,59 @@
+<div class="menu-title">
+    <h4>{{'menu' | translate}}</h4>
+    <div class="row small-vertical-spacing">
+        <div class="col-sm-12">
+            <ui-select ng-model="model.selectedNDP"
+                       theme="select2"
+                       class="selected-ndp-menu bold"
+                       style="width:100%;">
+                <ui-select-match allow-clear="true" class="form-control-ui-select selected-ndp-menu bold" placeholder="{{model.ndp && model.ndp.options && model.ndp.options.length > 0 ? 'please_select_ndp' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                <ui-select-choices repeat="option in model.ndp.options | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                    <span class="selected-ndp-menu bold" ng-bind-html="option.displayName | highlight: $select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+</div>
+
+<div class="vertical-spacing category-menu">
+    <div data-stop-propagation="true">
+        <script type="text/ng-template" id="treeMenu.html">
+            <span class="tree-menu-button"
+                    ng-if="!menuItem.root"
+                    ng-click="menuItem.show = !menuItem.show"
+                    ng-show="menuItem.id !== 'SPACE' && menuItem.show && menuItem.children.length > 0">
+                <i class="fa fa-minus-square-o"></i>
+            </span>
+            <span class="tree-menu-button"
+                    ng-if="!menuItem.root"
+                    ng-click="menuItem.show = !menuItem.show"
+                    ng-show="menuItem.id !== 'SPACE' && (!menuItem.show && menuItem.children.length > 0) || (!menuItem.show && menuItem.hasChildren)">
+                <i class="fa fa-plus-square-o"></i>
+            </span>
+            <span href class="tree-menu-button"
+                    ng-if="!menuItem.root && menuItem.children.length > 0"
+                    ng-class="{'selected-menu' : menuItem.id === model.selectedMenu.id}"
+                    ng-show="menuItem.id !== 'SPACE'">
+                {{menuItem.displayName | translate}}
+            </span>
+            <span href class="tree-menu-button"
+                    ng-if="!menuItem.root && (menuItem.children.length === 0 || !menuItem.children)"
+                    ng-click="setSelectedMenu(menuItem)"
+                    ng-class="{'selected-menu' : menuItem.id === model.selectedMenu.id}"
+                    ng-show="menuItem.id !== 'SPACE'">
+                <a href ng-class="{'selected-menu' : menuItem.id === model.selectedMenu.id}">{{menuItem.displayName | translate}}</a>
+            </span>
+            <span ng-show="menuItem.id === 'SPACE'" class="vertical-center">
+                &nbsp;
+            </span>
+            <ul class="tree" id="tree" ng-show="menuItem.show">
+                <li ng-class="getTreeMenuStyle(menuItem)" ng-repeat="menuItem in menuItem.children | orderBy:'order'" ng-include="'treeMenu.html'"></li>
+            </ul>
+        </script>
+        <ul class="tree" id="tree">
+            <li ng-class="getTreeMenuStyle(menuItem)" ng-repeat="menuItem in model.menuItems | orderBy:'order'" ng-include="'treeMenu.html'"></li>
+        </ul>
+    </div>
+
+    <br><br>
+</div>

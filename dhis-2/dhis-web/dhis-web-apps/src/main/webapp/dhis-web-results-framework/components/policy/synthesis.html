@@ -1,0 +1,35 @@
+<div class="small-vertical-spacing" ng-if="model.showProjectDetails && model.selectedProject.trackedEntityInstance === project.trackedEntityInstance">
+    <div class="bordered-div">
+        <table class="table table-responsive table-bordered" ng-repeat="section in model.selectedProgram.programSections">
+            <tr>
+                <th colspan="100%">{{section.displayName}}</th>
+            </tr>
+            <tr>
+                <td class="col-sm-1" ng-repeat="att in section.trackedEntityAttributes">
+                    <span class="bold">
+                        <span ng-if="!att.isIndicator">{{model.attributesById[att.id].displayName}}</span>
+                        <span ng-if="att.isIndicator">{{att.displayName}}</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-1" ng-repeat="secAtt in section.trackedEntityAttributes" ng-init="att = model.attributesById[secAtt.id]">
+                    <span ng-if="!secAtt.isIndicator">
+                        <span ng-switch="att.valueType">
+                            <span ng-switch-when="BOOLEAN">
+                                <span ng-if="project[att.id] === 'true'"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-switch-when="TRUE_ONLY">
+                                <span ng-if="project[att.id] === 'true'"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-switch-default>{{project[att.id]}}</span>
+                        </span>
+                    </span>
+                    <span ng-if="secAtt.isIndicator">
+                        {{secAtt.value}}
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

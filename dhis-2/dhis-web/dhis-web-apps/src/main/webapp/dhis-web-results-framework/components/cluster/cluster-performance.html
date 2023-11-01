@@ -1,0 +1,26 @@
+<div ng-include="'components/outcome/cluster-filters.html'"></div>
+<div class="row" ng-if="model.clusterReportReady">
+    <div ng-if="model.hasClusterData">
+        <div id="performance_overview" class="col-sm-12 table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky">{{'programme'| translate}}</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="pr in model.selectedCluster.options | orderBy: ['code']">
+                    <tr>
+                        <td>
+                            {{pr.displayName}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="!model.hasClusterData">
+        <div class="alert alert-warning">
+            {{'no_data_exists'| translate}}
+        </div>
+    </div>
+</div>

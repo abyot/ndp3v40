@@ -1,0 +1,43 @@
+<div class="row" ng-if="model.metaDataCached">
+    <div class="col-sm-12 vertical-spacing" ng-if="model.dataElements.length > 0">
+        <span class=" hideInPrint">
+            <span class="dropdown">
+                <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+                <ul class="dropdown-menu">
+                    <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+                    <li class="divider"></li>
+                    <li><a href ng-click="exportData()">{{'csv'| translate}}</a></li>
+                    <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+                </ul>
+            </span>
+        </span>
+        <div id="exportTable" class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky">{{'count' | translate}}</th>
+                        <th class="sticky">{{'development_indicator' | translate}}</th>
+                        <th class="sticky">{{'baseline_2010' | translate}}</th>
+                        <th class="sticky">{{model.selectedMenu.ndp}} {{'target_2025' | translate}}</th>
+                        <th class="sticky">{{'vision_target_2040' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="de in model.dataElements"
+                       ng-init="ocos = model.categoryCombosById[de.categoryCombo.id].categoryOptionCombos; counter = $index">
+                    <tr ng-repeat="oco in ocos">
+                        <td>{{counter + 1}}</td>
+                        <td>{{de.displayName}} <span ng-if="ocos.length > 1"> - {{oco.displayName}}</span></td>
+                        <td>{{getBaselineValue(de, oco.id)}}</td>
+                        <td>{{getTargetValue(de, oco.id)}}</td>
+                        <td>{{getVision2040Value(de,oco.id)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12 vertical-spacing" ng-if="model.dataElements.length === 0">
+        <div class="alert alert-warning">
+            {{'missing_vision2040_data'| translate}}
+        </div>
+    </div>
+</div>

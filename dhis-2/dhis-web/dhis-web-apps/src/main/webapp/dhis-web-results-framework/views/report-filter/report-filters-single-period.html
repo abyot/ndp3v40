@@ -1,0 +1,53 @@
+<div class="panel report-filter custom-panel">
+    <div class="panel-heading cursor-pointer custom-panel" ng-click="showReportFilters = !showReportFilters">
+        {{'advanced_report_filters'| translate}}
+        <div class="pull-right">
+            <span ng-show="showReportFilters">
+                <i class="fa fa-minus-square-o fa-2x vertical-center" title="{{'collapse'| translate}}"></i>
+            </span>
+            <span ng-show="!showReportFilters">
+                <i class="fa fa-plus-square-o fa-2x vertical-center" title="{{'expand'| translate}}"></i>
+            </span>
+        </div>                        
+    </div>
+    <div class="panel panel-body custom-panel no-radius remove-bottom-margin" ng-if="showReportFilters">
+        <div class="row small-vertical-spacing">
+            <div class="col-sm-2">
+                {{'vote'| translate}}                        
+            </div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" 
+                           name="foo" 
+                           class="form-control cursor-pointer" 
+                           placeholder="{{'please_select'| translate}}" 
+                           title="{{'select_from_tree'| translate}}"
+                           ng-model="selectedOrgUnit.displayName" 
+                           ng-readonly="{{true}}" 
+                           ng-required="true" 
+                           ng-click="showOrgUnitTree()">
+                    <span class="input-group-btn">        
+                        <button class="btn btn-default" type="button" title="{{'select_from_tree'| translate}}" ng-disabled="d2Disabled" ng-click="showOrgUnitTree(d2Object)"> 
+                            <i class="fa fa-plus-square-o"></i> 
+                        </button> 
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row small-vertical-spacing">
+            <div class="col-sm-2">
+                {{'fiscal_year'| translate}}                        
+            </div>
+            <div class="col-sm-10">
+                <ui-select ng-model="model.selectedPeriod"
+                           theme="select2"
+                           style="width:100%;">
+                    <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.periods && model.periods.length > 0 ? 'select_or_search' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="period in model.periods | filter: $select.search | limitTo:maxOptionSize | orderBy: ['displayName']">
+                        <span ng-bind-html="period.displayName | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+</div>

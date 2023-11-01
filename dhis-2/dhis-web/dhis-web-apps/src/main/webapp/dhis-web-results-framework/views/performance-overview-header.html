@@ -1,0 +1,21 @@
+<span class="col-sm-12 hideInPrint">
+    <span class="dropdown">
+        <label class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-attr-title="{{'download_as'| translate}}"><i class="fa fa-download"></i></label>
+        <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">{{'download_as'| translate}}</h6></li>
+            <li class="divider"></li>
+            <li><a href ng-click="exportData('performance_overview')">{{'csv'| translate}}</a></li>
+            <li><a href onclick="javascript:window.print()">{{'pdf'| translate}}</a></li>
+        </ul>
+    </span>
+</span>
+<div class="col-sm-12">
+    <span class="dropdown">
+        <span class="col-sm-3 bordered-div pull-right"
+              ng-repeat="header in model.performanceOverviewLegends| orderBy:'-order':reverse"
+              ng-style="header.style"
+              ng-class="header.printStyle">
+            {{header.name}}
+        </span>
+    </span>
+</div>

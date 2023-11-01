@@ -1,0 +1,48 @@
+<div class="small-vertical-spacing hideInPrint">
+    <div class="selection-group">
+        <div class="col-sm-7 green-info-area">
+            <div class="row small-vertical-spacing">
+                <div class="col-sm-2">
+                    {{'objective'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedObjective"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.dataElementGroupSets && model.dataElementGroupSets.length > 0 ? 'all' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="degs in model.dataElementGroupSets | filter: $select.search | limitTo:maxOptionSize">
+                            <span ng-bind-html="degs.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row small-vertical-spacing" ng-if="model.selectedObjective">
+                <div class="col-sm-2">
+                    {{'kra'| translate}}
+                </div>
+                <div class="col-sm-10">
+                    <ui-select ng-model="model.selectedKra"
+                               theme="select2"
+                               style="width:100%;">
+                        <ui-select-match allow-clear="true" class="form-control-ui-select" placeholder="{{model.kras && model.kras.length > 0 ? 'all' : 'empty'| translate}}">{{$select.selected.displayName|| $select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="deg in model.kras | filter: $select.search | limitTo:maxOptionSize | orderBy: ['code', 'displayName']">
+                            <span ng-bind-html="deg.displayName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row vertical-spacing pull-right">
+                <div class="col-sm-12">
+                    <button type="button"
+                            class="btn btn-primary"
+                            ng-click="getAnalyticsData()">
+                        {{'display_report'| translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 blue-info-area add-small-left-padding">
+            <div ng-include="'views/report-filter/report-filters.html'"></div>
+        </div>
+    </div>
+</div>
