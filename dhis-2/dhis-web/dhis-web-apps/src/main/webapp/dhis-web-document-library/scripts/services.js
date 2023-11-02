@@ -41,7 +41,6 @@ var docLibraryServices = angular.module('docLibraryServices', ['ngResource'])
         angular.forEach(d2Periods, function(p){
             //p.endDate = DateUtils.formatFromApiToUser(p.endDate);
             //p.startDate = DateUtils.formatFromApiToUser(p.startDate);
-            p.displayName = p.name;
             p.id = p.iso;
         });
 
