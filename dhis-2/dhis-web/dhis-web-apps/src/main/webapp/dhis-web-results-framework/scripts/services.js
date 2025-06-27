@@ -82,6 +82,7 @@ var ndpFrameworkServices = angular.module('ndpFrameworkServices', ['ngResource']
             angular.forEach(d2Periods, function (p) {
                 p.startDate = p._startDate._year + '-' + (p._startDate._month).toString().padStart(2, '0') + '-' + (p._startDate._day).toString().padStart(2, '0');
                 p.endDate = p._endDate._year + '-' + (p._endDate._month).toString().padStart(2, '0') + '-' + (p._endDate._day).toString().padStart(2, '0');
+                p.displayName = p.name;
                 p.id = p.iso;
             });
 
@@ -125,6 +126,7 @@ var ndpFrameworkServices = angular.module('ndpFrameworkServices', ['ngResource']
 
             angular.forEach(d2Periods, function (p) {
                 p.id = p.iso;
+                p.displayName = p.name;
             });
 
             return d2Periods;

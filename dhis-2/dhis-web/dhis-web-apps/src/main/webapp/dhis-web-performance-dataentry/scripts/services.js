@@ -57,6 +57,7 @@ var ndpPerformanceDataEntryServices = angular.module('ndpPerformanceDataEntrySer
         angular.forEach(d2Periods, function(p){
             p.endDate = extractDate(p._endDate);
             p.startDate = extractDate(p._startDate);
+            p.displayName = p.name;
             p.id = p.iso;
         });
 
